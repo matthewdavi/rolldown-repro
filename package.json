@@ -1,0 +1,14 @@
+{
+  "name": "rolldown-code-splitting-graph-repro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "repro": "rolldown -c rolldown.config.ts",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "rolldown": "^1.0.3",
+    "typescript": "^5.9.3"
+  }
+}
