@@ -5,10 +5,15 @@
   "type": "module",
   "scripts": {
     "repro": "rolldown -c rolldown.config.ts",
-    "clean": "rm -rf dist"
+    "vite:repro": "vite build --config vite.config.ts",
+    "clean": "rm -rf dist dist-vite"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "rolldown": "^1.0.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^8.0.16"
   }
 }

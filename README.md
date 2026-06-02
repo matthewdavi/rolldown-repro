@@ -19,6 +19,7 @@ marker string.
 ```sh
 pnpm install
 pnpm repro
+pnpm vite:repro
 ```
 
 ## Expected signal
@@ -38,3 +39,42 @@ The important output is:
 `expected-to-be-included.tsx` is truly shared and remains in the final bundle.
 `internal-module.tsx` is reported as shared by the chunking graph, but is absent
 from the final bundle after replacement and tree-shaking.
+
+## Vite 8 signal
+
+The Vite repro uses `vite@8` with `build.rolldownOptions`, React TSX entries,
+and this eliminated JSX shape:
+
+```tsx
+const component = __RESTRICTED__ ? (
+  <EliminatedImport>
+    <ComponentOnlyRenderedInHere />
+  </EliminatedImport>
+) : null;
+```
+
+Run:
+
+```sh
+pnpm vite:repro
+```
+
+The important output is:
+
+```txt
+[vite chunking graph] src/vite/eliminated-import.tsx owners=root1,root2 -> shared
+[vite chunking graph] src/vite/component-only-rendered-in-here.tsx owners=root1,root2 -> shared
+[vite chunking] src/vite/component-only-rendered-in-here.tsx owners=root1,root2 -> shared
+[vite chunking] src/vite/eliminated-import.tsx owners=root1,root2 -> shared
+
+[vite final bundle check]
+  contains __ELIMINATED_WRAPPER_MARKER__: false
+  contains __COMPONENT_ONLY_RENDERED_IN_HERE_MARKER__: false
+  wrapper mismatch reproduced: true
+  nested component mismatch reproduced: true
+```
+
+In Vite 8, the eliminated wrapper and nested component are assigned to `shared`
+by the custom chunking callback, but their code is not emitted in the final
+bundle. The practical issue is stale chunking-time reachability, not that this
+minimal case forces dead code back into the generated output.
