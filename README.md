@@ -42,9 +42,9 @@ from the final bundle after replacement and tree-shaking.
 
 ## Vite 8 signal
 
-The Vite repro uses `vite@8` with `build.rolldownOptions`, React TSX entries,
-`codeSplitting.includeDependenciesRecursively: false`, and this eliminated JSX
-shape:
+The Vite repro uses `vite@8.0.14` with `build.rolldownOptions`, React TSX
+entries, `codeSplitting.includeDependenciesRecursively: false`, and this
+eliminated JSX shape:
 
 ```tsx
 const component = __RESTRICTED__ ? (
@@ -86,3 +86,5 @@ React JSX runtime into a separate `jsx-runtime.js` chunk instead of keeping it i
 does not force the eliminated wrapper or nested component into the emitted code.
 The practical issue is stale chunking-time reachability, not that this minimal
 case forces dead code back into the generated output.
+
+This was also checked against `vite@8.0.15`; it produced the same result.
