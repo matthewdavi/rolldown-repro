@@ -42,7 +42,7 @@ from the final bundle after replacement and tree-shaking.
 
 ## Vite 8 signal
 
-The Vite repro uses `vite@8.0.14` with `build.rolldownOptions`, React TSX
+The Vite repro uses `vite@8.0.10` with `build.rolldownOptions`, React TSX
 entries, `codeSplitting.includeDependenciesRecursively: false`, and this
 eliminated JSX shape:
 
@@ -87,4 +87,5 @@ does not force the eliminated wrapper or nested component into the emitted code.
 The practical issue is stale chunking-time reachability, not that this minimal
 case forces dead code back into the generated output.
 
-This was also checked against `vite@8.0.15`; it produced the same result.
+This was also checked against `vite@8.0.14` and `vite@8.0.15`; both produced
+the same result.
