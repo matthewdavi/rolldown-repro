@@ -169,6 +169,7 @@ export default defineConfig({
         entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
         codeSplitting: {
+          includeDependenciesRecursively: false,
           groups: [
             {
               test(id) {
